@@ -1,6 +1,7 @@
 package it.epicode.Device.Management.controllers;
 
 import it.epicode.Device.Management.entities.Device;
+import it.epicode.Device.Management.exceptions.BadRequestException;
 import it.epicode.Device.Management.payloads.NewDeviceDTO;
 import it.epicode.Device.Management.services.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class DeviceController {
     @ResponseStatus(HttpStatus.CREATED)
     public Device saveNewDevice(@RequestBody @Validated NewDeviceDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
-            throw new RuntimeException();
+            throw new BadRequestException();
         } else {
             return deviceService.save(body);
         }

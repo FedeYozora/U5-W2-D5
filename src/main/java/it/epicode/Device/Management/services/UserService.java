@@ -3,6 +3,7 @@ package it.epicode.Device.Management.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import it.epicode.Device.Management.entities.User;
+import it.epicode.Device.Management.exceptions.NotFoundException;
 import it.epicode.Device.Management.payloads.NewUserDTO;
 import it.epicode.Device.Management.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UserService {
     }
 
     public User findById(UUID uuid) {
-        return userRepo.findById(uuid).orElseThrow(() -> new RuntimeException());
+        return userRepo.findById(uuid).orElseThrow(() -> new NotFoundException(uuid));
     }
 
     public User save(@RequestBody NewUserDTO body) {
@@ -44,7 +45,7 @@ public class UserService {
     }
 
     public User findByIDAndUpdate(UUID uuid, @RequestBody NewUserDTO body) {
-        User user = this.findById(uuid);
+        User user = userRepo.findById(uuid).orElseThrow(() -> new NotFoundException(uuid));
         user.setUsername(body.username());
         user.setName(body.name());
         user.setSurname(body.surname());
@@ -58,7 +59,11 @@ public class UserService {
         userRepo.delete(user);
     }
 
-    public String uploadImg(MultipartFile file) throws IOException {
-        return (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get(("url"));
+    public String uploadImg(MultipartFile file, UUID uuid) throws IOException {
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get(("url"));
+        User user = userRepo.findById(uuid).orElseThrow(() -> new NotFoundException(uuid));
+        user.setAvatar(url);
+        userRepo.save(user);
+        return url;
     }
 }

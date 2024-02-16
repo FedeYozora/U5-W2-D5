@@ -1,6 +1,7 @@
 package it.epicode.Device.Management.controllers;
 
 import it.epicode.Device.Management.entities.User;
+import it.epicode.Device.Management.exceptions.BadRequestException;
 import it.epicode.Device.Management.payloads.NewUserDTO;
 import it.epicode.Device.Management.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public User saveNewUser(@RequestBody @Validated NewUserDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
-            throw new RuntimeException();
+            throw new BadRequestException();
         } else {
             return userService.save(body);
         }
@@ -43,7 +44,7 @@ public class UserController {
     @PutMapping("/{id}")
     public User findByIDAndUpdate(@PathVariable UUID id, @RequestBody @Validated NewUserDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
-            throw new RuntimeException();
+            throw new BadRequestException();
         } else {
             return userService.findByIDAndUpdate(id, body);
         }
@@ -54,10 +55,10 @@ public class UserController {
         userService.findByIDAndDelete(id);
     }
 
-    @PostMapping("/upload")
-    public String uploadFile(@RequestParam("avatar") MultipartFile body) throws IOException {
+    @PostMapping("/upload/{id}")
+    public String uploadFile(@RequestParam("avatar") MultipartFile body, @PathVariable UUID id) throws IOException {
         System.out.println(body.getSize());
         System.out.println(body.getContentType());
-        return userService.uploadImg(body);
+        return userService.uploadImg(body, id);
     }
 }

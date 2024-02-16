@@ -2,6 +2,7 @@ package it.epicode.Device.Management.services;
 
 import it.epicode.Device.Management.entities.Device;
 import it.epicode.Device.Management.entities.User;
+import it.epicode.Device.Management.exceptions.NotFoundException;
 import it.epicode.Device.Management.payloads.NewDeviceDTO;
 import it.epicode.Device.Management.repos.DeviceRepo;
 import it.epicode.Device.Management.repos.UserRepo;
@@ -28,7 +29,7 @@ public class DeviceService {
     }
 
     public Device findByID(Integer id) {
-        return deviceRepo.findById(id).orElseThrow(() -> new RuntimeException());
+        return deviceRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
     public Device save(@RequestBody NewDeviceDTO body) {
@@ -40,12 +41,12 @@ public class DeviceService {
     }
 
     public Device findByIDAndUpdate(Integer id, Device body, UUID uuid) {
-        Device device = deviceRepo.findById(id).orElseThrow(() -> new RuntimeException());
+        Device device = deviceRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         device.setType(body.getType());
         device.setStatusDevices(body.getStatusDevices());
 
-        User user = userRepo.findById(uuid).orElseThrow(() -> new RuntimeException());
+        User user = userRepo.findById(uuid).orElseThrow(() -> new NotFoundException(id));
         device.setUser(user);
         return deviceRepo.save(device);
     }
