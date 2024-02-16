@@ -40,8 +40,13 @@ public class DeviceController {
     }
 
     @PutMapping("/{id}")
-    public Device findByIDAndUpdate(@PathVariable int id, @RequestBody Device body, @RequestParam("userID") UUID uuid) {
-        return deviceService.findByIDAndUpdate(id, body, uuid);
+    public Device findByIDAndUpdate(@PathVariable int id, @RequestBody Device body) {
+        return deviceService.findByIDAndUpdate(id, body);
+    }
+
+    @PutMapping("/{id}/{userid}")
+    public Device findByIDAndAssignToUser(@PathVariable int id, @RequestBody Device body, @RequestParam("userID") UUID uuid) {
+        return deviceService.findByIDAndAssign(id, body, uuid);
     }
 
     @DeleteMapping("/{id}")

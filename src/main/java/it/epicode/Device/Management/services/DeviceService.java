@@ -40,7 +40,15 @@ public class DeviceService {
         return deviceRepo.save(newDevice);
     }
 
-    public Device findByIDAndUpdate(Integer id, Device body, UUID uuid) {
+    public Device findByIDAndUpdate(Integer id, Device body) {
+        Device device = deviceRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
+
+        device.setType(body.getType());
+        device.setStatusDevices(body.getStatusDevices());
+        return deviceRepo.save(device);
+    }
+
+    public Device findByIDAndAssign(Integer id, Device body, UUID uuid) {
         Device device = deviceRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         device.setType(body.getType());
