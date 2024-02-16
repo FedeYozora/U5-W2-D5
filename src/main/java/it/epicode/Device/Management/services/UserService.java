@@ -40,7 +40,6 @@ public class UserService {
         newUser.setSurname(body.surname());
         newUser.setEmail(body.email());
         newUser.setAvatar(body.avatar());
-        newUser.setDevice(body.devices());
         return userRepo.save(newUser);
     }
 
@@ -51,7 +50,6 @@ public class UserService {
         user.setSurname(body.surname());
         user.setEmail(body.email());
         user.setAvatar(body.avatar());
-        user.setDevice(body.devices());
         return userRepo.save(user);
     }
 

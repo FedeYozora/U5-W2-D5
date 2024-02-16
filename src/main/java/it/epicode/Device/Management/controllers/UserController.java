@@ -50,8 +50,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void findByIDAndDelete(@PathVariable UUID uuid) {
-        userService.findByIDAndDelete(uuid);
+    public void findByIDAndDelete(@PathVariable UUID id) {
+        userService.findByIDAndDelete(id);
     }
 
     @PostMapping("/upload")

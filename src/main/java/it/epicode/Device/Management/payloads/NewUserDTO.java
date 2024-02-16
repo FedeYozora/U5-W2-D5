@@ -1,11 +1,8 @@
 package it.epicode.Device.Management.payloads;
 
-import it.epicode.Device.Management.entities.Device;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-
-import java.util.List;
 
 public record NewUserDTO(
         @NotEmpty(message = "L'username é obbligatorio")
@@ -20,6 +17,5 @@ public record NewUserDTO(
         @NotEmpty(message = "La email é obbligatoria")
         @Email(message = "Inserire una mail valida")
         String email,
-        String avatar,
-        List<Device> devices) {
+        String avatar) {
 }
