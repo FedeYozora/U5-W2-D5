@@ -2,6 +2,7 @@ package it.epicode.Device.Management.controllers;
 
 import it.epicode.Device.Management.entities.User;
 import it.epicode.Device.Management.payloads.NewUserDTO;
+import it.epicode.Device.Management.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import services.UserService;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -26,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User findByID(@PathVariable UUID uuid) {
-        return userService.findById(uuid);
+    public User findByID(@PathVariable UUID id) {
+        return userService.findById(id);
     }
 
     @PostMapping("")
@@ -41,11 +41,11 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User findByIDAndUpdate(@PathVariable UUID uuid, @RequestBody @Validated NewUserDTO body, BindingResult validation) {
+    public User findByIDAndUpdate(@PathVariable UUID id, @RequestBody @Validated NewUserDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new RuntimeException();
         } else {
-            return userService.findByIDAndUpdate(uuid, body);
+            return userService.findByIDAndUpdate(id, body);
         }
     }
 

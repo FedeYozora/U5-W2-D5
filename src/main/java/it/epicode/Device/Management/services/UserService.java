@@ -1,4 +1,4 @@
-package services;
+package it.epicode.Device.Management.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
