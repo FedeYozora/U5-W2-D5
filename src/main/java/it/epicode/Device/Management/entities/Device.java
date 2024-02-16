@@ -21,4 +21,9 @@ public class Device {
     @ManyToOne
     @JoinColumn(name = "UserID")
     private User user;
+
+    public Device(String type, StatusDevices statusDevices) {
+        this.type = type;
+        this.statusDevices = StatusDevices.DISPONIBILE;
+    }
 }

@@ -21,6 +21,5 @@ public record NewUserDTO(
         @Email(message = "Inserire una mail valida")
         String email,
         String avatar,
-        List<Device> devices
-) {
+        List<Device> devices) {
 }
