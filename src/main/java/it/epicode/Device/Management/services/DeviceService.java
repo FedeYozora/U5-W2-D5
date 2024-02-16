@@ -2,6 +2,7 @@ package it.epicode.Device.Management.services;
 
 import it.epicode.Device.Management.entities.Device;
 import it.epicode.Device.Management.entities.User;
+import it.epicode.Device.Management.enums.StatusDevices;
 import it.epicode.Device.Management.exceptions.NotFoundException;
 import it.epicode.Device.Management.payloads.NewDeviceDTO;
 import it.epicode.Device.Management.repos.DeviceRepo;
@@ -52,7 +53,7 @@ public class DeviceService {
         Device device = deviceRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 
         device.setType(body.getType());
-        device.setStatusDevices(body.getStatusDevices());
+        device.setStatusDevices(StatusDevices.ASSEGNATO);
 
         User user = userRepo.findById(uuid).orElseThrow(() -> new NotFoundException(id));
         device.setUser(user);
